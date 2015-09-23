@@ -5,7 +5,7 @@ public class Navigator {
 
     Position position;
 
-    public Navigator(Area area) {
+    public Navigator(Area area, Position position) {
 
     }
 

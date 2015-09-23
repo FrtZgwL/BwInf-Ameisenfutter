@@ -7,6 +7,10 @@ public class Ant {
 
     Field currField;
 
+    public Ant(Navigator nav) {
+
+    }
+
     public void step() {
         // wenn currField Futter hat, Futter aufnehmen
         // wenn currField Nest ist, und futter hat, futter ablegen

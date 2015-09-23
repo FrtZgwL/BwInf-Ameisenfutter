@@ -5,6 +5,10 @@ public class Area {
 
     private Field[][] fields;
 
+    public Area(int width, int height, Position nest, Position[] food) {
+
+    }
+
     /**
      *
      * @return Position des Nestes
