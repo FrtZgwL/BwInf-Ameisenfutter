@@ -11,6 +11,9 @@ public class Ant {
 
     }
 
+    /**
+     * Request new frame on ant
+     */
     public void step() {
         // wenn currField Futter hat, Futter aufnehmen
         // wenn currField Nest ist, und futter hat, futter ablegen
@@ -18,10 +21,18 @@ public class Ant {
         // wenn currField normal, und kein futter, einen Schritt weg von nest, hin zu stärksten Pheromonen
     }
 
+    /**
+     * Get current Position of this Ant
+     * @return Position of this ant
+     */
     public Position getPosition() {
         return null;
     }
 
+    /**
+     * Is this ant carrying food?
+     * @return true if this ant is carrying food
+     */
     public boolean isCarryingFood() {
         return false;
     }

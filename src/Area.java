@@ -17,10 +17,18 @@ public class Area {
         return null;
     }
 
+    /**
+     * Get Field at given position
+     * @param pos Position of searched field
+     * @return searched field
+     */
     public Field getField(Position pos) {
         return null;
     }
 
+    /**
+     * Request next frame on all fields
+     */
     public void step() {
         // step Fields
     }

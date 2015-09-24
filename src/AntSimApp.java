@@ -27,7 +27,11 @@ public class AntSimApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // create area
-        area = new Area(500, 500, null, null);
+        Position[] foodSpots = {
+                new Position(100, 100), new Position(200, 100),
+                new Position(100, 300), new Position(200, 300)
+        };
+        area = new Area(500, 500, new Position(500/2, 500/2), foodSpots);
         // create ants
         ants = new Ant[100];
         for (int i = 0; i < 100; i++) {
@@ -48,10 +52,17 @@ public class AntSimApp extends Application {
         renderer = new Renderer(ants, area, canvas);
     }
 
+    /**
+     * Main Method of the Simulation. Gets called every frame.
+     */
     private void step() {
         // step Area
+        area.step();
         // step Ants
+        for (Ant ant : ants) {
+            ant.step();
+        }
         // render new step
-            // give canvas to renderer and call him
+        renderer.renderFrame();
     }
 }
