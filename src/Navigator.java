@@ -25,4 +25,8 @@ public class Navigator {
         return null;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
 }

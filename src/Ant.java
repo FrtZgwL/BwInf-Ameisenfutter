@@ -26,7 +26,7 @@ public class Ant {
      * @return Position of this ant
      */
     public Position getPosition() {
-        return null;
+        return nav.getPosition();
     }
 
     /**
