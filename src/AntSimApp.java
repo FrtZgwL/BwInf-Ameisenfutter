@@ -1,24 +1,23 @@
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javafx.util.Duration;
 
 /**
  * Created by Cedric on 23.09.2015.
  *
  * Top Level Class for this Program
  */
-public class AntSimApp extends Application implements ActionListener {
+public class AntSimApp extends Application {
 
     // JavaFX Stuff
     Scene mainScene;
     Canvas canvas;
-    Timer newFrame;
 
     // AntSim Stuff
     Renderer renderer;
@@ -54,8 +53,14 @@ public class AntSimApp extends Application implements ActionListener {
         primaryStage.setTitle("Ameisenfutter");
         primaryStage.show();
 
-        newFrame = new Timer(1000, this);
-        newFrame.start();
+        // set up step loop
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(1000),
+                ae -> step()
+        ));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
         // create renderer
         renderer = new Renderer(ants, area, canvas);
     }
@@ -73,11 +78,5 @@ public class AntSimApp extends Application implements ActionListener {
         // render new step
         renderer.renderFrame();
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == newFrame) {
-            step();
-        }
-    }
 }
+
