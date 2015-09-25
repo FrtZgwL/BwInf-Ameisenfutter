@@ -14,6 +14,13 @@ public class Area {
         this.height = height;
         this.nest = nest;
         this.foods = foods;
+
+        fields = new Field[width][height];
+        for (int i = 0; i < 0; i++) {
+            for (int j = 0; j < 0; j++) {
+                fields[i][j] = new Field();
+            }
+        }
     }
 
     /**
@@ -21,7 +28,7 @@ public class Area {
      * @return Position des Nestes
      */
     public Position getNestPos() {
-        return null;
+        return nest;
     }
 
     public Position[] getFoodPos() {
@@ -34,7 +41,7 @@ public class Area {
      * @return searched field
      */
     public Field getField(Position pos) {
-        return null;
+        return fields[pos.getX()][pos.getY()];
     }
 
     /**
@@ -42,6 +49,11 @@ public class Area {
      */
     public void step() {
         // step Fields
+        for (Field[] fieldarr : fields) {
+            for (Field field : fieldarr) {
+                field.step();
+            }
+        }
     }
 
     public int getWidth() {
