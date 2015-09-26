@@ -3,10 +3,12 @@
  */
 public class Navigator {
 
+    private final Area area;
     Position position;
 
     public Navigator(Area area, Position position) {
-
+        this.area = area;
+        this.position = position;
     }
 
     /**

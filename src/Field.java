@@ -3,11 +3,18 @@
  */
 public class Field {
 
+    int foodCount;
+    int pheromoneCount;
+
+    public Field(int initialFoodCount, int initialPheromoneCount) {
+        foodCount = initialFoodCount;
+        pheromoneCount = initialPheromoneCount;
+    }
+
     /**
      * Request new frame of this field
      */
     public void step() {
-
     }
 
     /**
@@ -15,7 +22,7 @@ public class Field {
      * @return Pheromones on this field
      */
     public int getPheromoneCount() {
-        return 0;
+        return pheromoneCount;
     }
 
     /**
@@ -23,21 +30,28 @@ public class Field {
      * @return Food on this field
      */
     public int getFoodCount() {
-        return 0;
+        return foodCount;
+    }
+
+    public void setFoodCount(int foodCount) {
+        this.foodCount = foodCount;
+    }
+
+    public void setPheromoneCount(int pheromoneCount) {
+        this.pheromoneCount = pheromoneCount;
     }
 
     /**
      * Puts one new unit of Pheromones on this field
      */
     public void putPheromones() {
-
+        pheromoneCount++;
     }
 
     /**
      * Takes away one unit of food from this field
      */
     public void getFood() {
-
-        // wenn leer, FieldType zu normal
+        foodCount--;
     }
 }

@@ -9,17 +9,24 @@ public class Area {
     private final Position[] foods;
     private Field[][] fields;
 
-    public Area(int width, int height, Position nest, Position[] foods) {
+    public Area(int width, int height, Position nest, Position[] foods, int foodProField) {
         this.width = width;
         this.height = height;
         this.nest = nest;
         this.foods = foods;
 
+        // Creating empty fields
         fields = new Field[width][height];
-        for (int i = 0; i < 0; i++) {
-            for (int j = 0; j < 0; j++) {
-                fields[i][j] = new Field();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                fields[i][j] = new Field(0, 0);
+                fields[i][j].step();
             }
+        }
+
+        // Adding food to fields
+        for (int i = 0; i < foods.length; i++) {
+            fields[foods[i].getX()][foods[i].getY()].setFoodCount(foodProField);
         }
     }
 
@@ -49,9 +56,9 @@ public class Area {
      */
     public void step() {
         // step Fields
-        for (Field[] fieldarr : fields) {
-            for (Field field : fieldarr) {
-                field.step();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                fields[i][j].step();
             }
         }
     }

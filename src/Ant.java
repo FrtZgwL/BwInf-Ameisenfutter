@@ -8,7 +8,7 @@ public class Ant {
     Field currField;
 
     public Ant(Navigator nav) {
-
+        this.nav = nav;
     }
 
     /**

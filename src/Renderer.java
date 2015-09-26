@@ -24,25 +24,18 @@ public class Renderer {
      * Renders new frame on canvas.
      */
     public void renderFrame() {
+        // Clear Screen
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Put food down
-        Position[] foodFields = area.getFoodPos();
-        gc.setStroke(Color.BROWN);
-        // draw food
-        for (Position pos : foodFields) {
-            double x = canvas.getWidth() / area.getWidth() * pos.getX();
-            double y = canvas.getHeight() / area.getHeight() * pos.getY();
-            gc.strokeLine(x, y, x, y + 1);
-        }
         // draw ants
         gc.setStroke(Color.BLACK);
         for (Ant ant : ants) {
             Position pos = ant.getPosition();
             gc.strokeLine(pos.getX(), pos.getY(), pos.getX(), pos.getY() + 1);
         }
-        // draw pheromones
+        // draw pheromones & food
+        gc.setStroke(Color.BROWN);
         int fieldWidth = area.getWidth();
         int fieldHeight = area.getHeight();
         for (int i = 0; i < fieldWidth; i++) {

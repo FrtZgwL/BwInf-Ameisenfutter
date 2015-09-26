@@ -35,7 +35,7 @@ public class AntSimApp extends Application {
                 new Position(100, 100), new Position(200, 100),
                 new Position(100, 300), new Position(200, 300)
         };
-        area = new Area(500, 500, new Position(500/2, 500/2), foodSpots);
+        area = new Area(500, 500, new Position(500/2, 500/2), foodSpots, 50);
         // create ants
         ants = new Ant[100];
         for (int i = 0; i < 100; i++) {
@@ -53,6 +53,9 @@ public class AntSimApp extends Application {
         primaryStage.setTitle("Ameisenfutter");
         primaryStage.show();
 
+        // create renderer
+        renderer = new Renderer(ants, area, canvas);
+
         // set up step loop
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000),
@@ -60,9 +63,6 @@ public class AntSimApp extends Application {
         ));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
-
-        // create renderer
-        renderer = new Renderer(ants, area, canvas);
     }
 
     /**
