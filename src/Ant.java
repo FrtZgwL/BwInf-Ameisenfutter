@@ -21,14 +21,17 @@ public class Ant {
         // wenn currField Futter hat, Futter aufnehmen
         if (currField.getFoodCount() > 0){
             currField.takeFood();
+            hasFood = true;
         }
         // wenn currField Nest ist, und futter hat, futter ablegen
         if (currField.isNest() && hasFood) {
             currField.putFood();
+            hasFood = false;
         }
         // wenn currField normal, und futter hat, pheromone erhöhen;
         // dann einen Schritt in Richtung Nest
         else if (hasFood) {
+            currField.putPheromones();
             currField = nav.goHome();
         }
         // wenn currField normal, und kein futter,
