@@ -1,3 +1,4 @@
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -22,7 +23,24 @@ public class Navigator {
      * @return
      */
     public Field goHome() {
-        return null;
+        // check if moving on x / y axis
+        int xDist = area.getNestPos().getX() - pos.getX();
+        int yDist = area.getNestPos().getY() - pos.getY();
+
+        // check if home already
+        if (xDist == 0 && yDist == 0)
+            return area.getField(pos);
+
+        if (Math.abs(xDist) >  Math.abs(yDist)) {
+            // move on x axis
+            pos = new Position(pos.getX() + xDist / Math.abs(xDist), pos.getY());
+        }
+        else {
+            // move on y axis
+            pos = new Position(pos.getX(), pos.getY() + yDist / Math.abs(yDist));
+        }
+
+        return area.getField(pos);
     }
 
     /**
