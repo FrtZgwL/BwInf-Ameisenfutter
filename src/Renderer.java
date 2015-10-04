@@ -35,16 +35,17 @@ public class Renderer {
             gc.strokeLine(pos.getX(), pos.getY(), pos.getX(), pos.getY() + 1);
         }
         // draw pheromones & food
-        gc.setStroke(Color.BROWN);
         int fieldWidth = area.getWidth();
         int fieldHeight = area.getHeight();
         for (int i = 0; i < fieldWidth; i++) {
             for (int j = 0; j < fieldHeight; j++) {
                 Field curr = area.getField(new Position(i, j));
                 if (curr.getPheromoneCount() > 0) {
+                    gc.setStroke(Color.LAVENDER);
                     gc.strokeLine(i, j, i, j + 1);
                 }
                 if (curr.getFoodCount() > 0) {
+                    gc.setStroke(Color.BROWN);
                     gc.strokeLine(i, j, i, j + 1);
                 }
             }
