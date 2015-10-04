@@ -39,8 +39,9 @@ public class AntSimApp extends Application {
         // create ants
         ants = new Ant[100];
         for (int i = 0; i < 100; i++) {
-            Navigator navigator = new Navigator(area, new Position(0, 0));
-            ants[i] = new Ant(navigator);
+            Navigator navigator = new Navigator(area,
+                    new Position(area.getWidth()/2, area.getHeight()/2));
+            ants[i] = new Ant(navigator, area.getField(navigator.getPosition()));
         }
         // Create JavaFX Scene
         StackPane root = new StackPane();
@@ -58,7 +59,7 @@ public class AntSimApp extends Application {
 
         // set up step loop
         Timeline timeline = new Timeline(new KeyFrame(
-                Duration.millis(1000),
+                Duration.millis(10),
                 ae -> step()
         ));
         timeline.setCycleCount(Animation.INDEFINITE);

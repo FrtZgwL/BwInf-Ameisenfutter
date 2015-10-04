@@ -4,11 +4,14 @@
 public class Ant {
 
     Navigator nav;
-
     Field currField;
 
-    public Ant(Navigator nav) {
+    boolean hasFood;
+
+    public Ant(Navigator nav, Field initField) {
         this.nav = nav;
+        hasFood = false;
+        currField = initField;
     }
 
     /**
@@ -16,9 +19,23 @@ public class Ant {
      */
     public void step() {
         // wenn currField Futter hat, Futter aufnehmen
+        if (currField.getFoodCount() > 0){
+            currField.takeFood();
+        }
         // wenn currField Nest ist, und futter hat, futter ablegen
-        // wenn currField normal, und futter hat, pheromone erhöhen; dann einen Schritt in Richtung Nest
-        // wenn currField normal, und kein futter, einen Schritt weg von nest, hin zu stärksten Pheromonen
+        if (currField.isNest() && hasFood) {
+            currField.putFood();
+        }
+        // wenn currField normal, und futter hat, pheromone erhöhen;
+        // dann einen Schritt in Richtung Nest
+        else if (hasFood) {
+            currField = nav.goHome();
+        }
+        // wenn currField normal, und kein futter,
+        // einen Schritt weg von nest, hin zu stärksten Pheromonen
+        else {
+            currField = nav.search();
+        }
     }
 
     /**
@@ -34,6 +51,6 @@ public class Ant {
      * @return true if this ant is carrying food
      */
     public boolean isCarryingFood() {
-        return false;
+        return hasFood;
     }
 }

@@ -5,6 +5,7 @@ public class Field {
 
     int foodCount;
     int pheromoneCount;
+    private boolean nest;
 
     public Field(int initialFoodCount, int initialPheromoneCount) {
         foodCount = initialFoodCount;
@@ -15,14 +16,6 @@ public class Field {
      * Request new frame of this field
      */
     public void step() {
-    }
-
-    /**
-     * Returns the amount of pheromones on this field
-     * @return Pheromones on this field
-     */
-    public int getPheromoneCount() {
-        return pheromoneCount;
     }
 
     /**
@@ -37,6 +30,25 @@ public class Field {
         this.foodCount = foodCount;
     }
 
+    /**
+     * Takes away one unit of food from this field
+     */
+    public void takeFood() {
+        foodCount--;
+    }
+
+    public void putFood() {
+        foodCount++;
+    }
+
+    /**
+     * Returns the amount of pheromones on this field
+     * @return Pheromones on this field
+     */
+    public int getPheromoneCount() {
+        return pheromoneCount;
+    }
+
     public void setPheromoneCount(int pheromoneCount) {
         this.pheromoneCount = pheromoneCount;
     }
@@ -48,10 +60,7 @@ public class Field {
         pheromoneCount++;
     }
 
-    /**
-     * Takes away one unit of food from this field
-     */
-    public void getFood() {
-        foodCount--;
+    public boolean isNest() {
+        return nest;
     }
 }
