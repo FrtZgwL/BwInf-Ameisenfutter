@@ -28,6 +28,9 @@ public class Area {
         for (int i = 0; i < foods.length; i++) {
             fields[foods[i].getX()][foods[i].getY()].setFoodCount(foodProField);
         }
+
+        // creating nest
+        getField(nest).setNest(true);
     }
 
     /**
@@ -48,7 +51,24 @@ public class Area {
      * @return searched field
      */
     public Field getField(Position pos) {
-        return fields[pos.getX()][pos.getY()];
+        int x = pos.getX();
+        int y = pos.getY();
+
+        if (x > width) {
+            x = width - 1;
+        }
+        else if (x < 0) {
+            x = 0;
+        }
+        if (y > height) {
+            y = height - 1;
+        }
+        else if (y < 0) {
+            y = 0;
+        }
+
+
+        return fields[x][y];
     }
 
     /**

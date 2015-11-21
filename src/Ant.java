@@ -25,7 +25,6 @@ public class Ant {
         }
         // wenn currField Nest ist, und futter hat, futter ablegen
         if (currField.isNest() && hasFood) {
-            currField.putFood();
             hasFood = false;
         }
         // wenn currField normal, und futter hat, pheromone erhöhen;

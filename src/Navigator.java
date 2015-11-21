@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -48,50 +49,70 @@ public class Navigator {
      * @return
      */
     public Field search() {
+        // remember positions of adjacent fields
+        Position[] adjFieldPos = new Position[4];
+        adjFieldPos[0] = new Position(pos.getX(), pos.getY()-1);
+        adjFieldPos[1] = new Position(pos.getX()+1, pos.getY());
+        adjFieldPos[2] = new Position(pos.getX(), pos.getY()+1);
+        adjFieldPos[3] = new Position(pos.getX()-1, pos.getY());
         // create variables for adjacent fields
         // 0: north, 1: east, 2: south, 3: west
         Field[] adjFields = new Field[4];
-        adjFields[0] = area.getField(new Position(pos.getX(), pos.getY()-1));
-        adjFields[1] = area.getField(new Position(pos.getX()+1, pos.getY()));
-        adjFields[2] = area.getField(new Position(pos.getX(), pos.getY()+1));
-        adjFields[3] = area.getField(new Position(pos.getX()-1, pos.getY()));
-        // compare variables for highest count
-        int highest = 0;
+        adjFields[0] = area.getField(adjFieldPos[0]);
+        adjFields[1] = area.getField(adjFieldPos[1]);
+        adjFields[2] = area.getField(adjFieldPos[2]);
+        adjFields[3] = area.getField(adjFieldPos[3]);
+
+        // find allowed fields (all fields that would make the ant come closer
+        // to the nest are forbidden, since it has to move away when it finds
+        // pheromones)
+        ArrayList<Field> allowedFields = new ArrayList<>();
+        ArrayList<Position> allowedFieldPos = new ArrayList<>();
+        // for each adjacent field
         for (int i = 0; i < adjFields.length; i++) {
-            if (adjFields[i].getPheromoneCount()
-                    > adjFields[highest].getPheromoneCount()) {
-                highest = i;
+            // check if close to nest
+            Position nest = area.getNestPos();
+            if (
+                    // distanceX field->nest < distanceX ant->nest
+                    nest.getX() - adjFieldPos[i].getX() < nest.getX() - pos.getX()
+                    ||
+                    // distanceY field->nest < distanceY ant->nest
+                    nest.getY() - adjFieldPos[i].getX() < nest.getY() - pos.getY()
+            ) {
+                // field is closer to nest than ant -> not allowed
+                continue;
+            }
+            // field was not not allowed -> into the list
+            allowedFields.add(adjFields[i]);
+            allowedFieldPos.add(adjFieldPos[i]);
+        }
+
+        // compare variables for highest count
+        Field highestPField = null;
+        if (allowedFields.size() > 0) {
+            highestPField = allowedFields.get(0);
+            for (Field field : allowedFields) {
+                if (field.getPheromoneCount()
+                        > highestPField.getPheromoneCount()) {
+                    highestPField = field;
+                }
             }
         }
+
         // if highest pheromone count is 0, go random
-        if (adjFields[highest].getPheromoneCount() == 0) {
-            highest = rGen.nextInt(4);
-        }
-        // if going in forbiddendir, go somewhere else
-        if (highest == forbiddenDir) {
-            highest = (highest + 1) % 4;
+        if (highestPField == null || highestPField.getPheromoneCount() == 0) {
+            int randomIndex = rGen.nextInt(4);
+            highestPField = adjFields[randomIndex];
+            pos = adjFieldPos[randomIndex];
+            System.out.print("New pos: " + pos + "\n");
         }
         // update position
-        switch (highest) {
-            case 0:
-                pos = new Position(pos.getX(), pos.getY()-1);
-                forbiddenDir = 2;
-                break;
-            case 1:
-                pos = new Position(pos.getX()+1, pos.getY());
-                forbiddenDir = 3;
-                break;
-            case 2:
-                pos = new Position(pos.getX(), pos.getY()+1);
-                forbiddenDir = 0;
-                break;
-            case 3:
-                pos = new Position(pos.getX()-1, pos.getY());
-                forbiddenDir = 1;
-                break;
+        else  {
+            pos = allowedFieldPos.get(allowedFields.indexOf(highestPField));
         }
+
         // return field with highest pheromone count
-        return adjFields[highest];
+        return highestPField;
     }
 
     public Position getPosition() {

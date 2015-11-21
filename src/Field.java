@@ -3,19 +3,23 @@
  */
 public class Field {
 
+    private static final int MULTI = 1000;
+
+    boolean nest;
     int foodCount;
     int pheromoneCount;
-    private boolean nest;
 
     public Field(int initialFoodCount, int initialPheromoneCount) {
         foodCount = initialFoodCount;
-        pheromoneCount = initialPheromoneCount;
+        pheromoneCount = initialPheromoneCount*MULTI;
     }
 
     /**
      * Request new frame of this field
      */
     public void step() {
+        if (pheromoneCount > 0)
+            pheromoneCount--;
     }
 
     /**
@@ -46,21 +50,25 @@ public class Field {
      * @return Pheromones on this field
      */
     public int getPheromoneCount() {
-        return pheromoneCount;
+        return pheromoneCount/MULTI;
     }
 
     public void setPheromoneCount(int pheromoneCount) {
-        this.pheromoneCount = pheromoneCount;
+        this.pheromoneCount = pheromoneCount*MULTI;
     }
 
     /**
      * Puts one new unit of Pheromones on this field
      */
     public void putPheromones() {
-        pheromoneCount++;
+        pheromoneCount += MULTI;
     }
 
     public boolean isNest() {
         return nest;
+    }
+
+    public void setNest(boolean nest) {
+        this.nest = nest;
     }
 }
