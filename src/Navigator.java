@@ -74,10 +74,10 @@ public class Navigator {
             Position nest = area.getNestPos();
             if (
                     // distanceX field->nest < distanceX ant->nest
-                    nest.getX() - adjFieldPos[i].getX() < nest.getX() - pos.getX()
+                    Math.abs(nest.getX() - adjFieldPos[i].getX()) < Math.abs(nest.getX() - pos.getX())
                     ||
                     // distanceY field->nest < distanceY ant->nest
-                    nest.getY() - adjFieldPos[i].getX() < nest.getY() - pos.getY()
+                    Math.abs(nest.getY() - adjFieldPos[i].getX()) < Math.abs(nest.getY() - pos.getY())
             ) {
                 // field is closer to nest than ant -> not allowed
                 continue;
