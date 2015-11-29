@@ -94,10 +94,10 @@ public class AntSimApp extends Application {
         // --- Ant Slider --- //
         HBox antBox = new HBox();
 
-        antSld = new Slider(0, 200, 50);
+        antSld = new Slider(0, 4000, 50);
         antSld.setShowTickLabels(true);
         antSld.setShowTickMarks(true);
-        antSld.setMajorTickUnit(50);
+        antSld.setMajorTickUnit(1000);
 
         antBox.getChildren().addAll(new Text("Anzahl der Ameisen:"), antSld);
 
@@ -171,14 +171,10 @@ public class AntSimApp extends Application {
         for (int i = 0, n = 100; i < n; i++) {
             foodSpots[i] = new Position((int) Math.sin(2.0*Math.PI/100.0 * i) * radius + origin1.getX(),
                     (int) Math.cos(2*Math.PI/100 * i) * radius + origin1.getY());
-
-            System.out.println(foodSpots[i]);
         }
         for (int i = 100, n = 300; i < n; i++) {
             foodSpots[i] = new Position((int) Math.sin(2.0 * Math.PI / 200.0 * i) * radius +origin2.getX(),
                     (int) Math.cos(2*Math.PI/200 * i) * radius + origin2.getY());
-
-            System.out.println(foodSpots[i]);
         }
 
         return foodSpots;
