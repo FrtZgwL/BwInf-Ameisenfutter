@@ -41,7 +41,7 @@ public class Renderer {
             for (int j = 0; j < fieldHeight; j++) {
                 Field curr = area.getField(new Position(i, j));
                 if (curr.getPheromoneCount() > 0) {
-                    gc.setStroke(Color.LAVENDER);
+                    gc.setStroke(Color.MEDIUMPURPLE);
                     gc.strokeLine(i, j, i, j + 1);
                 }
                 if (curr.getFoodCount() > 0) {
