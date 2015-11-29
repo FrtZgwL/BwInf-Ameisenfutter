@@ -2,6 +2,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -42,17 +44,7 @@ public class AntSimApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // create area
-        Position[] testFoods = {new Position(100, 100), new Position(230, 230), new Position(200, 200)};
-        Position[] foodSpots = createFoodLine(new Position(200, 200), new Position(200, 450), 50);
-
-        area = new Area(500, 500, new Position(500/2, 500/2), foodSpots, 50);
-        // create ants
-        ants = new Ant[100];
-        for (int i = 0; i < 100; i++) {
-            Navigator navigator = new Navigator(area,
-                    new Position(area.getWidth()/2, area.getHeight()/2));
-            ants[i] = new Ant(navigator, area.getField(navigator.getPosition()));
-        }
+        setUpSim(100, new Position(500/2, 500/2), 1000);
         // Create JavaFX Scene
         rootLayout = new HBox();
         mainScene = new Scene(rootLayout);
@@ -80,16 +72,32 @@ public class AntSimApp extends Application {
         timeline.play();
     }
 
+    private void setUpSim(int amountAnts, Position nest, int pheroDecayTime) {
+        Position[] testFoods = {new Position(100, 100), new Position(230, 230), new Position(200, 200)};
+        Position[] foodSpots = createFoodLine(new Position(200, 200), new Position(200, 450), 50);
+
+        area = new Area(500, 500, nest, foodSpots, 50, pheroDecayTime);
+        // create ants
+        ants = new Ant[amountAnts];
+        for (int i = 0; i < amountAnts; i++) {
+            Navigator navigator = new Navigator(area,
+                    new Position(area.getWidth()/2, area.getHeight()/2));
+            ants[i] = new Ant(navigator, area.getField(navigator.getPosition()));
+        }
+
+        renderer = new Renderer(ants, area, canvas);
+    }
+
     private void setUpUIControls() {
         VBox sliderBox = new VBox();
 
         // --- Ant Slider --- //
         HBox antBox = new HBox();
 
-        antSld = new Slider(0, 1000, 100);
+        antSld = new Slider(0, 200, 50);
         antSld.setShowTickLabels(true);
         antSld.setShowTickMarks(true);
-        antSld.setMajorTickUnit(200);
+        antSld.setMajorTickUnit(50);
 
         antBox.getChildren().addAll(new Text("Anzahl der Ameisen:"), antSld);
 
@@ -119,14 +127,22 @@ public class AntSimApp extends Application {
         // --- Pheromone Slider --- //
         HBox pheroBox = new HBox();
 
-        pheroSld = new Slider(0, 10000, 1000);
+        pheroSld = new Slider(0, 1000, 1000);
         pheroSld.setShowTickLabels(true);
         pheroSld.setShowTickMarks(true);
-        pheroSld.setMajorTickUnit(2000);
+        pheroSld.setMajorTickUnit(250);
 
         pheroBox.getChildren().addAll(new Text("Pheromone bleiben:"), pheroSld);
 
         Button anwendBtn = new Button("Einstellungen anwenden");
+        anwendBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                setUpSim((int) antSld.getValue(),
+                        new Position((int) nestXSld.getValue(), (int) nestYSld.getValue()),
+                        (int) pheroSld.getValue());
+            }
+        });
 
         sliderBox.getChildren().addAll(antBox, nestXBox, nestYBox, pheroBox, anwendBtn);
         rootLayout.getChildren().addAll(sliderBox);
@@ -151,7 +167,6 @@ public class AntSimApp extends Application {
         Position origin1 = new Position(200, 200);
         Position origin2 = new Position(300, 300);
         int radius = 200;
-        //TODO nice food spots
 
         for (int i = 0, n = 100; i < n; i++) {
             foodSpots[i] = new Position((int) Math.sin(2.0*Math.PI/100.0 * i) * radius + origin1.getX(),

@@ -9,7 +9,7 @@ public class Area {
     private final Position[] foods;
     private Field[][] fields;
 
-    public Area(int width, int height, Position nest, Position[] foods, int foodProField) {
+    public Area(int width, int height, Position nest, Position[] foods, int foodProField, int pheroDecayTime) {
         this.width = width;
         this.height = height;
         this.nest = nest;
@@ -20,6 +20,7 @@ public class Area {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 fields[i][j] = new Field(0, 0);
+                fields[i][j].setPheroDecayTime(pheroDecayTime);
                 fields[i][j].step();
             }
         }
