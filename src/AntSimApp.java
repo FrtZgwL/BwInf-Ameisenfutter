@@ -4,7 +4,12 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -17,7 +22,13 @@ public class AntSimApp extends Application {
 
     // JavaFX Stuff
     Scene mainScene;
+    HBox rootLayout;
     Canvas canvas;
+        // UI Controls
+    Slider antSld;
+    Slider nestXSld;
+    Slider nestYSld;
+    Slider pheroSld;
 
     // AntSim Stuff
     Renderer renderer;
@@ -43,15 +54,19 @@ public class AntSimApp extends Application {
             ants[i] = new Ant(navigator, area.getField(navigator.getPosition()));
         }
         // Create JavaFX Scene
-        StackPane root = new StackPane();
-        mainScene = new Scene(root);
+        rootLayout = new HBox();
+        mainScene = new Scene(rootLayout);
 
         canvas = new Canvas(600, 600);
-        root.getChildren().add(canvas);
+        rootLayout.getChildren().add(canvas);
+
+        setUpUIControls();
 
         primaryStage.setScene(mainScene);
         primaryStage.setTitle("Ameisenfutter");
         primaryStage.show();
+
+
 
         // create renderer
         renderer = new Renderer(ants, area, canvas);
@@ -63,6 +78,58 @@ public class AntSimApp extends Application {
         ));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    private void setUpUIControls() {
+        VBox sliderBox = new VBox();
+
+        // --- Ant Slider --- //
+        HBox antBox = new HBox();
+
+        antSld = new Slider(0, 1000, 100);
+        antSld.setShowTickLabels(true);
+        antSld.setShowTickMarks(true);
+        antSld.setMajorTickUnit(200);
+
+        antBox.getChildren().addAll(new Text("Anzahl der Ameisen:"), antSld);
+
+
+        // --- NestX Slider --- //
+        HBox nestXBox = new HBox();
+
+        nestXSld = new Slider(0, 500, (500-0)/2);
+        nestXSld.setShowTickLabels(true);
+        nestXSld.setShowTickMarks(true);
+        nestXSld.setMajorTickUnit(100);
+
+        nestXBox.getChildren().addAll(new Text("X Position des Nests:"), nestXSld);
+
+
+        // --- NestY Slider --- //
+        HBox nestYBox = new HBox();
+
+        nestYSld = new Slider(0, 500, (500-0)/2);
+        nestYSld.setShowTickLabels(true);
+        nestYSld.setShowTickMarks(true);
+        nestYSld.setMajorTickUnit(100);
+
+        nestYBox.getChildren().addAll(new Text("Y Position des Nests:"), nestYSld);
+
+
+        // --- Pheromone Slider --- //
+        HBox pheroBox = new HBox();
+
+        pheroSld = new Slider(0, 10000, 1000);
+        pheroSld.setShowTickLabels(true);
+        pheroSld.setShowTickMarks(true);
+        pheroSld.setMajorTickUnit(2000);
+
+        pheroBox.getChildren().addAll(new Text("Pheromone bleiben:"), pheroSld);
+
+        Button anwendBtn = new Button("Einstellungen anwenden");
+
+        sliderBox.getChildren().addAll(antBox, nestXBox, nestYBox, pheroBox, anwendBtn);
+        rootLayout.getChildren().addAll(sliderBox);
     }
 
     /**
