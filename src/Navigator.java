@@ -104,7 +104,6 @@ public class Navigator {
             int randomIndex = rGen.nextInt(4);
             highestPField = adjFields[randomIndex];
             pos = adjFieldPos[randomIndex];
-            System.out.print("New pos: " + pos + "\n");
         }
         // update position
         else  {
